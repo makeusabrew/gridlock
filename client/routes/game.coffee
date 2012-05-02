@@ -6,6 +6,9 @@ Game =
         return {
             "game:info": (data) ->
                 GameController.prepare data
+
+            "game:start": ->
+                GameController.start()
         }
 
     init: ->

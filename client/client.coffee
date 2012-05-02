@@ -26,7 +26,7 @@ Client =
                 state.init()
 
     setStates: (states) ->
-        _states = states;
+        _states = states
 
     getSocket: ->
         _socket

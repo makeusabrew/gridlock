@@ -48,3 +48,7 @@ io.sockets.on "connection", (socket) ->
                 w: 10
                 h: 10
         socket.emit "game:info", info
+
+    socket.on "game:ready", ->
+        # @todo client is ready to rock. are we?
+        socket.emit "game:start"
