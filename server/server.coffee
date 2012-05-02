@@ -25,40 +25,33 @@ require("./app/routes")(app)
 
 # wire up sockets
 io.sockets.on "connection", (socket) ->
+    ###
+    ## client boot stuff
+    ###
     gameSocket = new GameSocket socket
 
     gameSocket.changeState "welcome"
 
+    ###
+    ## one off static controller 
+    ###
+    StaticController = require "./app/controllers/static"
+
     socket.on "state:fetch", (state, cb) ->
         if gameSocket.state is state
-            StaticController = require "./app/controllers/static"
             StaticController.fetchState state, (data) ->
                 cb data
 
-    # Welcome routes
+    ###
+    ##  Welcome logic
+    ###
     socket.on "welcome:login", ->
         gameSocket.changeState "game"
 
 
-    # Game routes
-    socket.on "game:init", ->
-        # @todo unstub. Obviously.
-        info =
-            grid:
-                w: 10
-                h: 10
-        socket.emit "game:info", info
+    ###
+    ##  Game controller
+    ###
+    GameController = require "./app/controllers/game"
 
-    socket.on "game:ready", ->
-        # @todo client is ready to rock. are we?
-        socket.emit "game:start"
-
-    socket.on "game:tile:flip", ->
-        # @todo decide whether to flip a tile or not
-        data =
-            x: Math.floor(Math.random()*10)
-            y: Math.floor(Math.random()*10)
-            transition: 500 + Math.floor(Math.random()*501)
-            duration: 500 + Math.floor(Math.random()*2501)
-
-        io.sockets.emit "game:tile:flip", data
+    GameController.loadRoutes io, socket
