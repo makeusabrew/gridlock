@@ -34,3 +34,7 @@ io.sockets.on "connection", (socket) ->
             StaticController = require "./app/controllers/static"
             StaticController.fetchState state, (data) ->
                 cb data
+
+    # Welcome routes
+    socket.on "welcome:login", ->
+        gameSocket.changeState "game"

@@ -7,7 +7,7 @@ Welcome =
     init: ->
         console.log "welcome init"
 
-        $("#login").submit (e) ->
+        $("#login").on 'submit', (e) ->
             e.preventDefault()
 
             Client.getSocket().emit "welcome:login"

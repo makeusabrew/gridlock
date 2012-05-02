@@ -2,8 +2,7 @@ _socket    = null
 _connected = false
 _wrapper   = null
 
-_states =
-    welcome: require("./routes/welcome.coffee")
+_states = null
 
 Client =
     connect: ->
@@ -22,9 +21,12 @@ Client =
 
                 _socket.on _event, _method for _event, _method of state.getRoutes()
 
+                _wrapper.html response
+
                 state.init()
 
-                _wrapper.html response
+    setStates: (states) ->
+        _states = states;
 
     getSocket: ->
         _socket
