@@ -38,3 +38,13 @@ io.sockets.on "connection", (socket) ->
     # Welcome routes
     socket.on "welcome:login", ->
         gameSocket.changeState "game"
+
+
+    # Game routes
+    socket.on "game:init", ->
+        # @todo unstub. Obviously.
+        info =
+            grid:
+                w: 10
+                h: 10
+        socket.emit "game:info", info
