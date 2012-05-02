@@ -2,7 +2,7 @@
     width:520px;
 }
 
-.tile {
+.tile-wrap {
     width:50px;
     height:50px;
     border:1px solid gray;
@@ -12,7 +12,7 @@
     -webkit-perspective:800;
 }
 
-.tile-inner {
+.tile {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -22,7 +22,7 @@
     /*-webkit-transition: -webkit-transform 1s;*/
 }
 
-.tile-inner div {
+.tile div {
     display: block;
     position: absolute;
     width: 100%;
@@ -31,16 +31,16 @@
     -webkit-backface-visibility: hidden;
 }
 
-.tile-inner .front {
+.tile .front {
     background: red;
 }
 
-.tile-inner .back {
+.tile .back {
     background: blue;
 
     -webkit-transform: rotateY(180deg);
 }
 
-.tile-inner.flipped {
+.tile.flipped {
     -webkit-transform: rotateY(180deg);
 }

@@ -4,8 +4,8 @@ GameController =
     prepare: (data) ->
         for x in [0..data.grid.w-1]
             for y in [0..data.grid.h-1]
-                str = "<div class=tile data-x=#{x} data-y=#{y}>
-                    <div class=tile-inner>
+                str = "<div class=tile-wrap>
+                    <div class=tile data-x=#{x} data-y=#{y}>
                         <div class=front></div>
                         <div class=back></div>
                     </div>
@@ -30,7 +30,7 @@ GameController =
         @queueTileFlip()
 
     actuallyFlipTile: (data) ->
-        tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}] > .tile-inner")
+        tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
         .addClass("flipped")
         .css("-webkit-transition", "-webkit-transform #{data.transition}ms")
         setTimeout ->
