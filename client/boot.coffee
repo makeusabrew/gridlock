@@ -1,10 +1,10 @@
 $ ->
     Client = require "./client"
 
-    _states =
-        welcome: require("./routes/welcome.coffee")
-        game:    require("./routes/game.coffee")
+    _routers =
+        welcome: require("./routes/welcome")
+        game:    require("./routes/game")
 
-    Client.setStates _states
+    Client.loadRouters _routers
 
     Client.connect()

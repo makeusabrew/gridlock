@@ -1,22 +1,18 @@
 Client         = require "../client.coffee"
 GameController = require "../controllers/game.coffee"
 
-Game =
-    getRoutes: ->
-        return {
-            "game:info": (data) ->
-                GameController.prepare data
+GameRouter =
+    load: (socket) ->
+        socket.on "game:info", (data) ->
+            GameController.prepare data
 
-            "game:start": ->
-                GameController.start()
+        socket.on "game:start", ->
+            GameController.start()
 
-            "game:tile:flip": (data) ->
-                GameController.actuallyFlipTile data
-        }
+        socket.on "game:tile:flip", (data) ->
+            GameController.actuallyFlipTile data
 
     init: ->
-        console.log "game init"
+        GameController.init()
 
-        Client.getSocket().emit "game:init"
-
-module.exports = Game
+module.exports = GameRouter

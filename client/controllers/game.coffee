@@ -1,6 +1,10 @@
 Client = require "../client.coffee"
 
 GameController =
+    init: ->
+        console.log "game init"
+        Client.getSocket().emit "game:init"
+
     prepare: (data) ->
         for x in [0..data.grid.w-1]
             for y in [0..data.grid.h-1]

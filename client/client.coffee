@@ -2,7 +2,7 @@ _socket    = null
 _connected = false
 _wrapper   = null
 
-_states = null
+_routers = null
 
 Client =
     connect: ->
@@ -17,16 +17,16 @@ Client =
 
         _socket.on "state:change", (state) ->
             _socket.emit "state:fetch", state, (response) ->
-                state = _states[state]
+                router = _routers[state]
 
-                _socket.on _event, _method for _event, _method of state.getRoutes()
+                router.load _socket
 
                 _wrapper.html response
 
-                state.init()
+                router.init()
 
-    setStates: (states) ->
-        _states = states
+    loadRouters: (routers) ->
+        _routers = routers
 
     getSocket: ->
         _socket

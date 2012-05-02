@@ -1,8 +1,8 @@
 Client = require "../client.coffee"
 
-Welcome =
-    getRoutes: ->
-        return {}
+WelcomeRouter =
+    load: (socket) ->
+        return null
 
     init: ->
         console.log "welcome init"
@@ -12,4 +12,4 @@ Welcome =
 
             Client.getSocket().emit "welcome:login"
 
-module.exports = Welcome
+module.exports = WelcomeRouter
