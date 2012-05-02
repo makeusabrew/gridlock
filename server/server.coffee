@@ -52,3 +52,11 @@ io.sockets.on "connection", (socket) ->
     socket.on "game:ready", ->
         # @todo client is ready to rock. are we?
         socket.emit "game:start"
+
+    socket.on "game:tile:flip", ->
+        # @todo decide whether to flip a tile or not
+        data =
+            x: Math.floor(Math.random()*10)
+            y: Math.floor(Math.random()*10)
+
+        socket.emit "game:tile:flip", data

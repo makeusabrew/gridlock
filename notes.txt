@@ -1,0 +1,10 @@
+## avoiding server side setTimeouts
+
+To keep the server from having to maintain too much about the game an easy
+solution is to have each client randomly request a new tile - let them
+do the hard work and let the server simply agree or disagree
+
+## game 'tick'
+
+Very different to socket2m - no actual client side game loop, so no 'tick' method
+as such. Much more reliance on timeouts, intervals and events.

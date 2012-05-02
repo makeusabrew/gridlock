@@ -9,6 +9,9 @@ Game =
 
             "game:start": ->
                 GameController.start()
+
+            "game:tile:flip": (data) ->
+                GameController.actuallyFlipTile data
         }
 
     init: ->
