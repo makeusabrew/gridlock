@@ -21,7 +21,7 @@ io.configure ->
     io.set "transports", ["websocket"]
 
 # load routes
-require("./app/routes")(app)
+require("./app/routes/url").load app
 
 # wire up sockets
 io.sockets.on "connection", (socket) ->
