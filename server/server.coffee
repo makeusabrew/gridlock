@@ -58,5 +58,7 @@ io.sockets.on "connection", (socket) ->
         data =
             x: Math.floor(Math.random()*10)
             y: Math.floor(Math.random()*10)
+            transition: 500 + Math.floor(Math.random()*501)
+            duration: 500 + Math.floor(Math.random()*2501)
 
-        socket.emit "game:tile:flip", data
+        io.sockets.emit "game:tile:flip", data

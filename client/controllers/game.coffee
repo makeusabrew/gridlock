@@ -4,27 +4,40 @@ GameController =
     prepare: (data) ->
         for x in [0..data.grid.w-1]
             for y in [0..data.grid.h-1]
-                $(".grid").append "<div class=tile data-x=#{x} data-y=#{y}></div>"
+                str = "<div class=tile data-x=#{x} data-y=#{y}>
+                    <div class=tile-inner>
+                        <div class=front></div>
+                        <div class=back></div>
+                    </div>
+                </div>"
+                $(".grid").append str
         
         Client.getSocket().emit "game:ready"
 
     start: ->
         console.log "GO!"
 
-        @queueTileFlip 2000
+        @queueTileFlip()
 
-    queueTileFlip: (delay) ->
+    queueTileFlip: ->
+        delay = 1000 + Math.floor(Math.random()*4001)
         setTimeout =>
             @flipTile()
         , delay
 
     flipTile: ->
-        console.log "requesting tile flip"
         Client.getSocket().emit "game:tile:flip"
-        @queueTileFlip 2000
+        @queueTileFlip()
 
     actuallyFlipTile: (data) ->
-        console.log data
+        tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}] > .tile-inner")
+        .addClass("flipped")
+        .css("-webkit-transition", "-webkit-transform #{data.transition}ms")
+        setTimeout ->
+            tile.removeClass "flipped"
+
+        # we have to ensure the timeout takes into account transition time AND duration
+        , (data.transition+data.duration)
 
 
 module.exports = GameController
