@@ -21,14 +21,4 @@ GameController =
 
         io.sockets.emit "game:tile:flip", data
 
-    loadRoutes: (io, socket) ->
-        socket.on "game:init", =>
-            @init io, socket
-
-        socket.on "game:ready", =>
-            @start io, socket
-
-        socket.on "game:tile:flip", =>
-            @flipTile io, socket
-
 module.exports = GameController

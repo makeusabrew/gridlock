@@ -50,8 +50,6 @@ io.sockets.on "connection", (socket) ->
 
 
     ###
-    ##  Game controller
+    ##  Game routes
     ###
-    GameController = require "./app/controllers/game"
-
-    GameController.loadRoutes io, socket
+    require("./app/routes/game").load io, socket
