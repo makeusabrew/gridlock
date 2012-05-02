@@ -1,10 +1,11 @@
-Client = require "../client.coffee"
+Client         = require "../client.coffee"
+GameController = require "../controllers/game.coffee"
 
 Game =
     getRoutes: ->
         return {
             "game:info": (data) ->
-                console.log data
+                GameController.prepare data
         }
 
     init: ->
