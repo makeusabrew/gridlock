@@ -1,0 +1,30 @@
+!!! 5
+html(lang="en")
+    head
+    meta(charset='utf-8')
+    meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+    - if (typeof pageTitle != 'undefined')
+        title GridLock - #{pageTitle}
+    - else
+        title GridLock
+    link(href='/bootstrap/css/bootstrap.min.css', rel='stylesheet', type='text/css')
+    link(href='/css/style.css', rel='stylesheet', type='text/css')
+    - if (typeof settings !== 'undefined' && settings.trackStats)
+        script
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-20517424-5']);
+            _gaq.push(['_setDomainName', 'none']);
+            _gaq.push(['_setAllowLinker', true]);
+            _gaq.push(['_trackPageview']);
+            _gaq.push(['_trackPageLoadTime']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+body
+    .container
+        block content
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+    block scripts
