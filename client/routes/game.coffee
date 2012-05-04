@@ -15,4 +15,7 @@ GameRouter =
     init: ->
         GameController.init()
 
+    destroy: ->
+        GameController.destroy()
+
 module.exports = GameRouter

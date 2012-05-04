@@ -1,8 +1,11 @@
 express = require "express"
 app     = express.createServer()
 io      = require("socket.io").listen(app)
+mongoose= require "mongoose"
 
 GameSocket = require "./app/game_socket"
+
+mongoose.connect "localhost", "gridlock"
 
 app.listen "8765"
 

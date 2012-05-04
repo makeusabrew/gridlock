@@ -3,7 +3,22 @@ Client = require "../client.coffee"
 GameController =
     init: ->
         console.log "game init"
+
+        $(document).on "click", ".tile", (e) ->
+            e.preventDefault()
+
+            data =
+                x: $(this).data("x")
+                y: $(this).data("y")
+
+            Client.getSocket().emit "game:tile:hit", data
+
         Client.getSocket().emit "game:init"
+
+    destroy: ->
+        console.log "game destroy"
+
+        $(document).off "click", ".tile"
 
     prepare: (data) ->
         for x in [0..data.grid.w-1]

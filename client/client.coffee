@@ -1,6 +1,7 @@
 _socket    = null
 _connected = false
 _wrapper   = null
+_state     = null
 
 _routers = null
 
@@ -17,6 +18,8 @@ Client =
 
         _socket.on "state:change", (state) ->
             _socket.emit "state:fetch", state, (response) ->
+                _routers[_state].destroy() if _state?
+
                 router = _routers[state]
 
                 router.load _socket
@@ -24,6 +27,7 @@ Client =
                 _wrapper.html response
 
                 router.init()
+                _state = state
 
     loadRouters: (routers) ->
         _routers = routers
