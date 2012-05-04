@@ -14,9 +14,11 @@ GameController =
                     w: game.model.width
                     h: game.model.height
             
-            activeGames[game.model._id] = game
+            gameId = game.model._id
+            activeGames[gameId] = game
 
-            socket.set "gameId", game.model._id
+            socket.set "gameId", gameId
+            socket.join "game:#{gameId}"
             socket.emit "game:info", info
 
     start: (socket) ->
@@ -25,7 +27,6 @@ GameController =
 
     flipTile: (socket) ->
         socket.get "gameId", (err, gameId) =>
-            console.log gameId
             game = activeGames[gameId]
 
             x = Math.floor(Math.random()*10)
@@ -35,9 +36,9 @@ GameController =
 
             tile = game.getTile x, y
             tile.show speed, duration, =>
-                @io.sockets.emit "game:tile:hide", {x:x, y:y}
+                @io.sockets.in("game:#{gameId}").emit "game:tile:hide", {x:x, y:y}
 
-            @io.sockets.emit "game:tile:show", {x: x, y: y, speed: speed}
+            @io.sockets.in("game:#{gameId}").emit "game:tile:show", {x: x, y: y, speed: speed}
 
     checkHit: (socket, data) ->
         console.log data
