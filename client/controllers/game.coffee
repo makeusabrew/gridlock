@@ -48,15 +48,13 @@ GameController =
         Client.getSocket().emit "game:tile:flip"
         @queueTileFlip()
 
-    actuallyFlipTile: (data) ->
+    showTile: (data) ->
         tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
+        .css("-webkit-transition", "-webkit-transform #{data.speed}ms")
         .addClass("flipped")
-        .css("-webkit-transition", "-webkit-transform #{data.transition}ms")
-        setTimeout ->
-            tile.removeClass "flipped"
 
-        # we have to ensure the timeout takes into account transition time AND duration
-        , (data.transition+data.duration)
-
+    hideTile: (data) ->
+        tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
+        .removeClass "flipped"
 
 module.exports = GameController

@@ -28,4 +28,7 @@ class Game
         @model.save (err) ->
             cb err
 
+    getTile: (x, y) ->
+        return @tiles[x][y]
+
 module.exports = Game
