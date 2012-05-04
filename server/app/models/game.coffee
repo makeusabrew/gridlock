@@ -12,8 +12,11 @@ GameModel = mongoose.model "GameModel", GameSchema
 
 Tile = require "./tile"
 
+EventEmitter = require("events").EventEmitter
+
 class Game
     constructor: ->
+        @emitter = new EventEmitter()
         @model = new GameModel()
         @tiles = []
 
@@ -30,5 +33,23 @@ class Game
 
     getTile: (x, y) ->
         return @tiles[x][y]
+
+    start: ->
+        console.log "game starting"
+        @queueTileFlip()
+
+    queueTileFlip: ->
+        delay = 1000 + Math.floor(Math.random()*4001)
+        setTimeout =>
+            @flipTile()
+        , delay
+
+    flipTile: ->
+        console.log "flipping tile"
+        @emitter.emit "game:tile:flip"
+        @queueTileFlip()
+
+    on: (event, args) ->
+        @emitter.on event, args
 
 module.exports = Game

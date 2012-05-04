@@ -6,7 +6,6 @@ GameController =
     io: null
 
     init: (socket) ->
-        # @todo unstub. Obviously.
         game = new GameModel()
         game.createGrid (err) ->
             info =
@@ -22,23 +21,31 @@ GameController =
             socket.emit "game:info", info
 
     start: (socket) ->
-        # @todo client is ready to rock. are we?
-        socket.emit "game:start"
-
-    flipTile: (socket) ->
         socket.get "gameId", (err, gameId) =>
             game = activeGames[gameId]
 
-            x = Math.floor(Math.random()*10)
-            y = Math.floor(Math.random()*10)
-            speed = 300 + Math.floor(Math.random()*701)
-            duration = 500 + Math.floor(Math.random()*3501)
+            gameSockets = @io.sockets.clients "game:#{gameId}"
+            
+            if gameSockets.length is 1
 
-            tile = game.getTile x, y
-            tile.show speed, duration, =>
-                @io.sockets.in("game:#{gameId}").emit "game:tile:hide", {x:x, y:y}
+                game.start()
+                game.on "game:tile:flip", =>
+                   @flipTile gameId
 
-            @io.sockets.in("game:#{gameId}").emit "game:tile:show", {x: x, y: y, speed: speed}
+                socket.emit "game:start"
+
+    flipTile: (gameId) ->
+        game = activeGames[gameId]
+        x = Math.floor(Math.random()*10)
+        y = Math.floor(Math.random()*10)
+        speed = 300 + Math.floor(Math.random()*701)
+        duration = 500 + Math.floor(Math.random()*3501)
+
+        tile = game.getTile x, y
+        tile.show speed, duration, =>
+            @io.sockets.in("game:#{gameId}").emit "game:tile:hide", {x:x, y:y}
+
+        @io.sockets.in("game:#{gameId}").emit "game:tile:show", {x: x, y: y, speed: speed}
 
     checkHit: (socket, data) ->
         console.log data

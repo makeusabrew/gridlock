@@ -36,18 +36,6 @@ GameController =
     start: ->
         console.log "GO!"
 
-        @queueTileFlip()
-
-    queueTileFlip: ->
-        delay = 1000 + Math.floor(Math.random()*4001)
-        setTimeout =>
-            @flipTile()
-        , delay
-
-    flipTile: ->
-        Client.getSocket().emit "game:tile:flip"
-        @queueTileFlip()
-
     showTile: (data) ->
         tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
         .css("-webkit-transition", "-webkit-transform #{data.speed}ms")
