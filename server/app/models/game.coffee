@@ -12,11 +12,12 @@ GameModel = mongoose.model "GameModel", GameSchema
 
 Tile = require "./tile"
 
-Game = ->
-    @model = new GameModel()
-    @tiles = []
+class Game
+    constructor: ->
+        @model = new GameModel()
+        @tiles = []
 
-    @createGrid = (cb) ->
+    createGrid: (cb) ->
         for x in [0..9]
             @tiles[x] = []
             for y in [0..9]
@@ -26,7 +27,5 @@ Game = ->
         @model.height = 10
         @model.save (err) ->
             cb err
-
-    return
 
 module.exports = Game
