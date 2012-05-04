@@ -45,7 +45,6 @@ class Game
         , delay
 
     flipTile: ->
-        console.log "flipping tile"
         @emitter.emit "game:tile:flip"
         @queueTileFlip()
 

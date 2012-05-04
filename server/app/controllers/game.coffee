@@ -30,7 +30,7 @@ GameController =
                 game.on "game:tile:flip", =>
                    @flipTile gameId
 
-                socket.emit "game:start"
+                @io.sockets.in("game:#{gameId}").emit "game:start"
 
     flipTile: (gameId) ->
         game = getGame gameId
