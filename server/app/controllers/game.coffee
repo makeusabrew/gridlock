@@ -47,8 +47,12 @@ GameController =
 
     checkHit: (socket, data) ->
         socket.get "gameId", (err, gameId) =>
+
             game = getGame gameId
-                tile = game.getTile data.x, data.y
-                console.log "valid hit" if tile.isVisible()?
+            tile = game.getTile data.x, data.y
+
+            if tile.isVisible()
+                tile.hide()
+                @io.sockets.in("game:#{gameId}").emit "game:tile:hide", {x: data.x, y: data.y}
 
 module.exports = GameController

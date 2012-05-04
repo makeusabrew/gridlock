@@ -2,20 +2,24 @@ class Tile
     constructor: ->
         @type = null
         @visible = false
+        @hideHandler = null
 
     isVisible: ->
         return @visible
 
     show: (speed, duration, cb) ->
-        setTimeout ->
+        @hideHandler = setTimeout =>
             @visible = true
-            # class the tile as visible half way through its transition
-        , Math.floor(duration/2)
 
-        setTimeout ->
-            @visible = false
-            cb()
-        , (duration+speed)
+            @hideHandler = setTimeout =>
+                @visible = false
+                cb()
+            , duration
+                
+        , speed
 
+    hide: ->
+        clearTimeout @hideHandler
+        @visible = false
 
 module.exports = Tile
