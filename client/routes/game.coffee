@@ -1,5 +1,5 @@
-Client         = require "../client.coffee"
-GameController = require "../controllers/game.coffee"
+Client         = require "../client"
+GameController = require "../controllers/game"
 
 GameRouter =
     load: (socket) ->

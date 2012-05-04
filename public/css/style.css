@@ -44,3 +44,7 @@
 .tile.flipped {
     -webkit-transform: rotateY(180deg);
 }
+
+.game {
+    cursor:pointer;
+}

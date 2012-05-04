@@ -33,7 +33,8 @@ io.sockets.on "connection", (socket) ->
     ###
     gameSocket = new GameSocket socket
 
-    gameSocket.changeState "welcome"
+    #gameSocket.changeState "welcome"
+    socket.emit "state:change", "welcome"
 
     ###
     ## one off static controller 
@@ -41,16 +42,20 @@ io.sockets.on "connection", (socket) ->
     StaticController = require "./app/controllers/static"
 
     socket.on "state:fetch", (state, cb) ->
-        if gameSocket.state is state
-            StaticController.fetchState state, (data) ->
-                cb data
+        #if gameSocket.state is state
+        StaticController.fetchState state, (data) ->
+            cb data
 
     ###
     ##  Welcome logic
     ###
     socket.on "welcome:login", ->
-        gameSocket.changeState "game"
+        socket.emit "state:change", "lobby"
 
+    ###
+    ##  Lobby routes
+    ###
+    require("./app/routes/lobby").load io, socket
 
     ###
     ##  Game routes

@@ -1,32 +1,30 @@
 GameModel = require "../models/game"
 
-activeGames = {}
+getGame = require("../state_manager").getGame
+setGame = require("../state_manager").setGame
 
 GameController =
     io: null
 
     init: (socket) ->
-        game = new GameModel()
-        game.createGrid (err) ->
+        socket.get "gameId", (err, gameId) =>
+            game = getGame gameId
+
             info =
                 grid:
                     w: game.model.width
                     h: game.model.height
             
-            gameId = game.model._id
-            activeGames[gameId] = game
-
-            socket.set "gameId", gameId
-            socket.join "game:#{gameId}"
             socket.emit "game:info", info
+            socket.join "game:#{gameId}"
 
     start: (socket) ->
         socket.get "gameId", (err, gameId) =>
-            game = activeGames[gameId]
+            game = getGame gameId
 
             gameSockets = @io.sockets.clients "game:#{gameId}"
             
-            if gameSockets.length is 1
+            if gameSockets.length is 2
 
                 game.start()
                 game.on "game:tile:flip", =>
@@ -35,7 +33,7 @@ GameController =
                 socket.emit "game:start"
 
     flipTile: (gameId) ->
-        game = activeGames[gameId]
+        game = getGame gameId
         x = Math.floor(Math.random()*10)
         y = Math.floor(Math.random()*10)
         speed = 300 + Math.floor(Math.random()*701)

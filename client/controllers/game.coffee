@@ -1,4 +1,4 @@
-Client = require "../client.coffee"
+Client = require "../client"
 
 GameController =
     init: ->
