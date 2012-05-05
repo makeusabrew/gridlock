@@ -4,12 +4,33 @@ WelcomeController =
     init: ->
         console.log "welcome init"
 
-        $("#login").on "submit", (e) ->
-            e.preventDefault()
+        # twitter auth stuff
+        twttr.anywhere (T) ->
+            if T.isConnected()
+                userData = T.currentUser.attributes
+                delete userData.status
+                Client.getSocket().emit "welcome:auth", userData
+            else
+                T("#auth").connectButton()
 
-            Client.getSocket().emit "welcome:login"
+            T.bind "authComplete", (e, user) ->
+                userData = T.currentUser.attributes
+                delete userData.status
+                Client.getSocket().emit "welcome:auth", userData
+
+            T.bind "signOut", (e) ->
+                console.log e
+
+        # proceed to lobby binding
+        $("#proceed").on "click", (e) ->
+            e.preventDefault()
+            Client.getSocket().emit "welcome:proceed"
+
+    authed: (data) ->
+        $("#proceed").show()
 
     destroy: ->
+        console.log "welcome destroy"
         $("#login").off "submit"
 
 

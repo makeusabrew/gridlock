@@ -47,10 +47,9 @@ io.sockets.on "connection", (socket) ->
             cb data
 
     ###
-    ##  Welcome logic
+    ##  Welcome routes
     ###
-    socket.on "welcome:login", ->
-        socket.emit "state:change", "lobby"
+    require("./server/routes/welcome").load io, socket
 
     ###
     ##  Lobby routes
