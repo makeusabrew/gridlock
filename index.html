@@ -33,6 +33,15 @@
 
     <p><b>TODO</b> need to verify the _identity attribute as per twitter's recommendations.</p>
 
+    <p>Got very basic scoring mechanism in. Started audio.</p>
+
+    <p>Next on the list is to start thinking about user object representation. We have a server side
+    model which ideally we'd reuse in some capacity on the client side but this is where isomorphic
+    code feels difficult. Naturally there are certain things the server side model cares about which
+    are of no interest to the client (e.g. DB persistence) and similarly things the client wants to
+    track which don't benefit the server (e.g. current user mouse/cursor coordinates). Not sure how
+    to solve this.</p>
+
     <h2>Saturday 5th May, 2012 (#1)</h2>
     <ul>
         <li>Reworked directory structure to get rid of pointless server/app/ namespace</li>
