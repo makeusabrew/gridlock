@@ -1,4 +1,5 @@
 Client = require "../client"
+SoundManager = require "../sound_manager"
 
 ###
 ## private methods
@@ -61,7 +62,9 @@ GameController =
         .addClass(data.type.id)
 
         switch data.type.type
-            when "points" then face.html(data.type.value)
+            when "points"
+                face.html(data.type.value)
+                SoundManager.playSound "tile_flip"
 
     hideTile: (data) ->
         tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
