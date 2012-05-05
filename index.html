@@ -3,5 +3,30 @@
         <title>Gridlock: Dev Journal</title>
     </head>
     <h1>Gridlock: Dev Journal</h1>
-    <p>Watch this space &hellip;</p>
+    <h2>Friday 4th May, 2012</h2>
+    <ul>
+        <li>First real effort to get concept of proper game and tile models in</li>
+        <li>Games now created properly, messages are restricted to the correct game room</li>
+        <li>Users can now choose whether to create a new game or join existing</li>
+    </ul>
+    <p>Moved pretty much all tile flipping logic to the server. Theory had been to let clients
+    run their own game logic and have the server ratify any requests (e.g. is it time for another tile?)
+    but this simply won't work in reality. The appeal is obvious - let the server detach itself from
+    'game loop' style events as far as possible, but it doesn't scale well when dealing with more than
+    2 player games - in a 10+ player scenario you'll end up with 10 different clients running their own
+    version of events and just bombarding the server anyway.</p>
+    
+    <p>Turns out that moving the tile flip logic isn't so bad anyway. The relevant setTimeout calls are 
+    all nicely abstracted behind the Game and tile models, meaning they're properly self contained and
+    at least don't <i>look</i> ugly in the main server logic.</p>
+
+    <p>Started using <a href="http://mongoosejs.com/">mongoose</a> for Model &rarr; MongoDB persistence.
+    Seems decent but not quite sure I'm using it particularly well - my models need to do a lot of work
+    which never has to go near the DB (create tiles, manage tile flips, tile hits etc), so at the moment
+    each model simply has a namespaced 'model' property which is its mongoose object. Doesn't feel great.</p>
+
+    <p>One thing I'm still unsure how to do correctly in node-land is sharing in-memory objects between
+    controllers. Both the Game and Lobby controllers need to know about the list of active games, which
+    is crudely held in an 'activeGames' object inside a StateManager object. This object feels like a bit
+    of a catch all / global cop out, but not sure how else to solve that yet.</p>
 </html>
