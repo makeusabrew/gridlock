@@ -16,6 +16,23 @@
         </script>
     </head>
     <h1>Gridlock: Dev Journal</h1>
+    <h2>Saturday 5th May, 2012</h2>
+    <ul>
+        <li>Reworked directory structure to get rid of pointless server/app/ namespace</li>
+    </ul>
+
+    <p>Need to start looking at Twitter Oauth. Anxious about how this is going to work for a number
+    of reasons:</p>
+    <ul>
+        <li>None of the node oauth modules I've used before have worked very well - user has always been
+        asked to re-auth the app every time</li>
+        <li>It doesn't fit into the flow of the rest of the site - URLs instead of WebSockets etc.</li>
+    </ul>
+    <p>Current plan is to try and do it all in a JS popup (can't do ajax / iframe because of Twitter's
+    restrictions around that). Hopefully we can auth then call a JS method in the parent which will
+    trigger a WebSockets message to the server to get the authed details. Might look at Twitter's own
+    JS auth stuff too.</p>
+
     <h2>Friday 4th May, 2012</h2>
     <ul>
         <li>First real effort to get concept of proper game and tile models in</li>
