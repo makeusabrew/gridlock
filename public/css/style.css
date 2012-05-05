@@ -75,3 +75,7 @@
     background: black;
     color: white;
 }
+
+.avatar-small {
+    width:20px;
+}
