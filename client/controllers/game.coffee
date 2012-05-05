@@ -15,6 +15,8 @@ cursor =
 ## public API
 ###
 GameController =
+    socket: null
+
     init: ->
         console.log "game init"
 
@@ -25,14 +27,16 @@ GameController =
                 x: $(this).data("x")
                 y: $(this).data("y")
 
-            Client.getSocket().emit "game:tile:hit", data
+            # we can't use fat arrow notation here, since it'll break the scope of
+            # the element which was clicked ('this', above) which we need
+            GameController.socket.emit "game:tile:hit", data
 
         # wire up handler to keep track of cursor position
         $(document).on "mousemove", (e) ->
             cursor.x = e.pageX
             cursor.y = e.pageY
 
-        Client.getSocket().emit "game:init"
+        @socket.emit "game:init"
 
     destroy: ->
         console.log "game destroy"
@@ -55,12 +59,12 @@ GameController =
         _addUser player for player in data.players
         
         # always keep this here last to let the server know we're good to go
-        Client.getSocket().emit "game:ready"
+        @socket.emit "game:ready"
 
     start: ->
         console.log "GO!"
-        setInterval ->
-            Client.getSocket().emit "game:user:position" cursor
+        setInterval =>
+            @socket.emit "game:user:position", cursor
         , 500
 
     showTile: (data) ->

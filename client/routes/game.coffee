@@ -3,6 +3,8 @@ GameController = require "../controllers/game"
 
 GameRouter =
     load: (socket) ->
+        GameController.socket = socket
+
         socket.on "game:info", (data) ->
             GameController.prepare data
 
