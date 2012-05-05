@@ -8,4 +8,7 @@ class Base
     set: (key, value) ->
         @model[key] = value
 
+    getIdentifier: ->
+        return null
+
 module.exports = Base

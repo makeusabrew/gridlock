@@ -5,7 +5,7 @@ SoundManager = require "../sound_manager"
 ## private methods
 ###
 _addUser = (user) ->
-    $(".users").append("<img src='#{user.profile_image_url}' />")
+    $(".users").append("<div data-user-id='#{user.twitter_id}'><img src='#{user.profile_image_url}' /> <span>0</span></div>")
 
 ###
 ## public API
@@ -69,8 +69,6 @@ GameController =
         switch data.type.type
             when "points"
                 face.html(data.type.value)
-            when "points_down"
-                face.html("-#{data.type.value}")
 
         SoundManager.playSound "tile_flip"
 
@@ -87,5 +85,10 @@ GameController =
 
     addUser: (data) ->
         _addUser data
+
+    userScore: (data) ->
+        span = $("[data-user-id='#{data.id}'] span")
+        score = parseInt span.html()
+        span.html(parseInt(data.score) + score)
 
 module.exports = GameController

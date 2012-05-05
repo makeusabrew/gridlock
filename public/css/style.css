@@ -71,8 +71,7 @@
 /**
  * tile types
  */
-.tile .points,
-.tile .points_down {
+.tile .points {
     background: black;
     color: white;
 }

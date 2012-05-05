@@ -20,6 +20,7 @@ class Game
         @model = new GameModel()
         @tiles = []
         @users = []
+        @userScores = {}
 
     createGrid: (cb) ->
         for x in [0..9]
@@ -54,10 +55,14 @@ class Game
 
     addUser: (user) ->
         @users.push user
+        @userScores[user.getIdentifier()] = 0
 
     getUsers: ->
         results = []
         results.push user.model for user in @users
         return results
+
+    addUserScore: (user, score) ->
+        @userScores[user.getIdentifier()] += score
 
 module.exports = Game

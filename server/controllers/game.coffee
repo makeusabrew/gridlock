@@ -54,6 +54,14 @@ GameController =
 
             if tile.isVisible()
                 tile.hide()
-                @io.sockets.in("game:#{gameId}").emit "game:tile:hide", tile.getData()
+                socket.get "user", (err, user) =>
+                    @io.sockets.in("game:#{gameId}").emit "game:tile:hide", tile.getData()
+                    if tile.type.type is "points"
+                        game.addUserScore user, tile.type.value
+
+                        data =
+                            id: user.getIdentifier()
+                            score: tile.type.value
+                        @io.sockets.in("game:#{gameId}").emit "game:user:score", data
 
 module.exports = GameController

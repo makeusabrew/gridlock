@@ -38,5 +38,8 @@ class User extends Base
         @model.save (err) ->
             cb err
 
+    getIdentifier: ->
+        return @get "twitter_id"
+
 exports.User = User
 exports.UserModel = UserModel

@@ -18,6 +18,9 @@ GameRouter =
         socket.on "game:user:join", (data) ->
             GameController.addUser data
 
+        socket.on "game:user:score", (data) ->
+            GameController.userScore data
+
     init: ->
         GameController.init()
 
