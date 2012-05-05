@@ -16,7 +16,20 @@
         </script>
     </head>
     <h1>Gridlock: Dev Journal</h1>
-    <h2>Saturday 5th May, 2012</h2>
+    <h3>Saturday 5th May, 2012 (#2)</h2>
+
+    <p><b>Update</b>: Twitter's <a href="https://dev.twitter.com/docs/anywhere/welcome">Anywhere</a>
+    stuff is actually a lot better than I'd given it credit for. Given that the entire game is reliant
+    on JS and there are no real page loads, the JS only twitter auth route is perfectly acceptable.</p>
+
+    <p>Current mechanism is very simple - use the standard Twitter Anywhere JS handlers and emit
+    a message to the server upon successful auth, or if user's already authed. Server simply
+    checks if this user exists in the DB or not, creates it if so, and returns pretty much the same
+    data back to the user after setting the user against the socket.</p>
+
+    <p><b>TODO</b> need to verify the _identity attribute as per twitter's recommendations</p>
+
+    <h2>Saturday 5th May, 2012 (#1)</h2>
     <ul>
         <li>Reworked directory structure to get rid of pointless server/app/ namespace</li>
     </ul>
@@ -32,10 +45,6 @@
     restrictions around that). Hopefully we can auth then call a JS method in the parent which will
     trigger a WebSockets message to the server to get the authed details. Might look at Twitter's own
     JS auth stuff too.</p>
-
-    <p><b>Update</b>: Twitter's <a href="https://dev.twitter.com/docs/anywhere/welcome">Anywhere</a>
-    stuff is actually a lot better than I'd given it credit for. Given that the entire game is reliant
-    on JS and there are no real page loads, the JS only twitter auth route is perfectly acceptable.</p>
 
     <h2>Friday 4th May, 2012</h2>
     <ul>
