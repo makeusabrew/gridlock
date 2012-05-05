@@ -1,10 +1,10 @@
 $ ->
-    Client = require "./client"
+    Client = require "./client/client"
 
     _routers =
-        game:    require "./routes/game"
-        lobby:   require "./routes/lobby"
-        welcome: require "./routes/welcome"
+        game:    require "./client/routes/game"
+        lobby:   require "./client/routes/lobby"
+        welcome: require "./client/routes/welcome"
 
     Client.loadRouters _routers
 
