@@ -11,6 +11,7 @@ GameController =
             game = getGame gameId
 
             info =
+                players: game.getUsers()
                 grid:
                     w: game.model.width
                     h: game.model.height
@@ -18,7 +19,7 @@ GameController =
             socket.emit "game:info", info
             socket.join "game:#{gameId}"
 
-    start: (socket) ->
+    clientReady: (socket) ->
         socket.get "gameId", (err, gameId) =>
             game = getGame gameId
 

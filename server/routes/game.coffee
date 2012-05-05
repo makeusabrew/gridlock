@@ -8,7 +8,7 @@ GameRouter =
             GameController.init socket
 
         socket.on "game:ready", ->
-            GameController.start socket
+            GameController.clientReady socket
 
         socket.on "game:tile:hit", (data) ->
             GameController.checkHit socket, data

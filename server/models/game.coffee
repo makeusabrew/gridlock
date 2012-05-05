@@ -19,6 +19,7 @@ class Game
         @emitter = new EventEmitter()
         @model = new GameModel()
         @tiles = []
+        @users = []
 
     createGrid: (cb) ->
         for x in [0..9]
@@ -50,5 +51,13 @@ class Game
 
     on: (event, args) ->
         @emitter.on event, args
+
+    addUser: (user) ->
+        @users.push user
+
+    getUsers: ->
+        results = []
+        results.push user.model for user in @users
+        return results
 
 module.exports = Game

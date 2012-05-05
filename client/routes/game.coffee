@@ -15,6 +15,9 @@ GameRouter =
         socket.on "game:tile:hide", (data) ->
             GameController.hideTile data
 
+        socket.on "game:user:join", (data) ->
+            GameController.addUser data
+
     init: ->
         GameController.init()
 
