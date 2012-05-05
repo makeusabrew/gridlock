@@ -24,6 +24,9 @@ class User extends Base
         else
             @model = new UserModel()
 
+    ###
+    ## persist a new user based on values from twitter
+    ###
     createFromValues: (data, cb) ->
         @set 'twitter_id', data.id
         @set 'profile_image_url', data.profile_image_url

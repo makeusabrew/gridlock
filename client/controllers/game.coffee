@@ -2,10 +2,14 @@ Client = require "../client"
 SoundManager = require "../sound_manager"
 
 ###
-## private methods
+## private bits
 ###
 _addUser = (user) ->
     $(".users").append("<div data-user-id='#{user.twitter_id}'><img src='#{user.profile_image_url}' /> <span>0</span></div>")
+
+cursor =
+    x: 0
+    y: 0
 
 ###
 ## public API
@@ -22,6 +26,11 @@ GameController =
                 y: $(this).data("y")
 
             Client.getSocket().emit "game:tile:hit", data
+
+        # wire up handler to keep track of cursor position
+        $(document).on "mousemove", (e) ->
+            cursor.x = e.pageX
+            cursor.y = e.pageY
 
         Client.getSocket().emit "game:init"
 
@@ -50,6 +59,9 @@ GameController =
 
     start: ->
         console.log "GO!"
+        setInterval ->
+            Client.getSocket().emit "game:user:position" cursor
+        , 500
 
     showTile: (data) ->
         tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
@@ -77,6 +89,8 @@ GameController =
 
         tile.removeClass "flipped"
 
+        # we need to make sure we remove whatever class the tile
+        # temporarily had only *after* the transition completes
         setTimeout ->
             tile.find(".back")
             .attr("class", "back")
@@ -87,6 +101,7 @@ GameController =
         _addUser data
 
     userScore: (data) ->
+        # @todo don't like this... but it'll do for a rough prototype
         span = $("[data-user-id='#{data.id}'] span")
         score = parseInt span.html()
         span.html(parseInt(data.score) + score)
