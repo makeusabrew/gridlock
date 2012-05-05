@@ -25,7 +25,7 @@ class Game
         for x in [0..9]
             @tiles[x] = []
             for y in [0..9]
-                @tiles[x][y] = new Tile()
+                @tiles[x][y] = new Tile x, y
 
         @model.width  = 10
         @model.height = 10

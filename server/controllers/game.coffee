@@ -42,9 +42,9 @@ GameController =
 
         tile = game.getTile x, y
         tile.show speed, duration, =>
-            @io.sockets.in("game:#{gameId}").emit "game:tile:hide", {x:x, y:y}
+            @io.sockets.in("game:#{gameId}").emit "game:tile:hide", tile.getData()
 
-        @io.sockets.in("game:#{gameId}").emit "game:tile:show", {x: x, y: y, speed: speed}
+        @io.sockets.in("game:#{gameId}").emit "game:tile:show", tile.getData()
 
     checkHit: (socket, data) ->
         socket.get "gameId", (err, gameId) =>

@@ -36,8 +36,6 @@
 }
 
 .tile .back {
-    background: blue;
-
     -webkit-transform: rotateY(180deg);
 }
 
@@ -47,4 +45,12 @@
 
 .game {
     cursor:pointer;
+}
+
+/**
+ * tile types
+ */
+.tile .points {
+    background: black;
+    color: white;
 }

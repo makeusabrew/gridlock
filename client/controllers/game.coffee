@@ -52,12 +52,27 @@ GameController =
 
     showTile: (data) ->
         tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
-        .css("-webkit-transition", "-webkit-transform #{data.speed}ms")
-        .addClass("flipped")
+
+        tile.css("-webkit-transition", "-webkit-transform #{data.speed}ms")
+        .addClass "flipped"
+
+        face = tile.find(".back")
+        .addClass(data.type.type)
+        .addClass(data.type.id)
+
+        switch data.type.type
+            when "points" then face.html(data.type.value)
 
     hideTile: (data) ->
         tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
-        .removeClass "flipped"
+
+        tile.removeClass "flipped"
+
+        setTimeout ->
+            tile.find(".back")
+            .attr("class", "back")
+            .empty()
+        , data.speed
 
     addUser: (data) ->
         _addUser data
