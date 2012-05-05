@@ -10,6 +10,10 @@
     float:left;
 
     -webkit-perspective:800;
+       -moz-perspective:800;
+        -ms-perspective:800;
+         -o-perspective:800;
+            perspective:800;
 }
 
 .tile {
@@ -18,8 +22,13 @@
     position: absolute;
 
     -webkit-transform-style: preserve-3d;
+       -moz-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
+         -o-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+
     /* nuh-uh; we do this inline to allow different transition speeds. */
-    /*-webkit-transition: -webkit-transform 1s;*/
+    /* transition: transform 1s; */
 }
 
 .tile div {
@@ -29,6 +38,10 @@
     height: 100%;
 
     -webkit-backface-visibility: hidden;
+       -moz-backface-visibility: hidden;
+        -ms-backface-visibility: hidden;
+         -o-backface-visibility: hidden;
+            backface-visibility: hidden;
 }
 
 .tile .front {
@@ -37,10 +50,18 @@
 
 .tile .back {
     -webkit-transform: rotateY(180deg);
+       -moz-transform: rotateY(180deg);
+        -ms-transform: rotateY(180deg);
+         -o-transform: rotateY(180deg);
+            transform: rotateY(180deg);
 }
 
 .tile.flipped {
     -webkit-transform: rotateY(180deg);
+       -moz-transform: rotateY(180deg);
+        -ms-transform: rotateY(180deg);
+         -o-transform: rotateY(180deg);
+            transform: rotateY(180deg);
 }
 
 .game {
@@ -50,7 +71,8 @@
 /**
  * tile types
  */
-.tile .points {
+.tile .points,
+.tile .points_down {
     background: black;
     color: white;
 }

@@ -54,7 +54,12 @@ GameController =
     showTile: (data) ->
         tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
 
-        tile.css("-webkit-transition", "-webkit-transform #{data.speed}ms")
+        tile
+        .css("-webkit-transition", "-webkit-transform #{data.speed}ms")
+        .css("-moz-transition", "-moz-transform #{data.speed}ms")
+        .css("-ms-transition", "-ms-transform #{data.speed}ms")
+        .css("-o-transition", "-o-transform #{data.speed}ms")
+        .css("transition", "transform #{data.speed}ms")
         .addClass "flipped"
 
         face = tile.find(".back")
@@ -64,7 +69,10 @@ GameController =
         switch data.type.type
             when "points"
                 face.html(data.type.value)
-                SoundManager.playSound "tile_flip"
+            when "points_down"
+                face.html("-#{data.type.value}")
+
+        SoundManager.playSound "tile_flip"
 
     hideTile: (data) ->
         tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
