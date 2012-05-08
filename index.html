@@ -20,6 +20,50 @@
     <p>This page contains musings, plans and general stuff <a href="http://twitter.com/makeusabrew">I've discovered</a>
     when building my latest multiplayer HTML5 game, <a href="http://github.com/makeusabrew/gridlock">Gridlock</a>.</p>
 
+    <h2>Tuesday 8th May, 2012</h2>
+
+    <p>Suddenly became conscious of the fact that for as long as the server runs, we're going to be dealing with
+    shared objects in shared memory. This means that it's not as simple as keeping a 'points' variable against
+    an in-memory user because that user might well be playing multiple games at once&mdash;which would make a complete
+    mess. However, it is still correct that a socket should only map to one user, since two tabs (and two games) authed
+    as one user is still, well, one user.</p>
+
+    <p>Need to think of a neat way of ensuring data integrity across multiple games without just resorting to huge
+    hash maps like <code>Game.userPoints[user_id] = 123</code>. In the particular case of points/score, we additionally
+    also do need a 'global' score to keep track of a player's points across all games they've ever played.</p>
+
+    <p>Replaced all server side 'socket' objects with a wrapper class: SuperSocket. Motiviation is twofold:</p>
+    <ol>
+        <li>Didn't like callback style socket.set() and socket.get just to set in-memory socket properties</li>
+        <li>Allows pre-dispatch logic to be built in, e.g. only allow route foo:bar:baz to fire if socket.game exists etc</li>
+    </ol>
+
+    <p>Haven't started work on the second point yet but already having synchronous setters/getters makes code a lot more readable. I'm sure
+    there was nothing to stop me simply setting new properties on socketio's sockets, but it would have felt wrong to violate their set / get
+    conventions in place.</p>
+
+    <p>Started to think about chat mechanism tonight too. Ideally want to have a system whereby a user always
+    has a chat pane which seamlessly switches between lobby &rarr; game &rarr; lobby, possibly also allowing an
+    in game user to receive and interact with lobby chat messages too. Each state is currently completely isolated
+    so providing interstate (!?) consistency here could be interesting. It also breaks the so far one-to-one mapping
+    between client &harr; server controllers: we have a server side 'chat' controller but each chat message is
+    going to have to be handled client side by the appropriate state's controller (e.g. lobby, game). Unless we
+    can just have a permanently listening ChatController? One to ponder.</p>
+
+    <p>Worked out a reasonable definition of server side view stats this evening too: they should contain
+    <strong>only</strong> static data, e.g. wrapping content or data which is always present. Obvious really,
+    but not a definitive line in the sand I'd drawn until yet.</p>
+
+    <h2>Sunday 6th May, 2012</h2>
+
+    <p>Had some travel time today to think about a couple of areas:</p>
+    <ul>
+        <li>Client side views</li>
+        <li>Security</li>
+    </ul>
+
+    <p>&hellip;but more about them later.</p>
+
     <h2>Saturday 5th May, 2012 (#2)</h2>
 
     <p>Twitter's <a href="https://dev.twitter.com/docs/anywhere/welcome">Anywhere</a>
