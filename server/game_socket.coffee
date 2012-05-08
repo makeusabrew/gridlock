@@ -1,4 +1,4 @@
-GameSocket = (socket) ->
+SuperSocket = (socket) ->
     @socket = socket
     @state  = null
     @user = null
@@ -19,4 +19,4 @@ GameSocket = (socket) ->
 
     return
 
-module.exports = GameSocket
+module.exports = SuperSocket
