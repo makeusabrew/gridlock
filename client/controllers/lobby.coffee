@@ -26,6 +26,10 @@ LobbyController =
     destroy: ->
         console.log "lobby destroy"
 
+        $(document).off "click", ".game-start"
+        $(document).off "click", ".game"
+        $(document).off "click", ".chat-form"
+
     info: (data) ->
         console.log data
         games = data.games
