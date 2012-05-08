@@ -17,7 +17,7 @@ GameController =
         
         socket.emit "game:info", info
 
-        # no supersocket proxy for join
+        # no supersocket proxy for .join
         socket.socket.join "game:#{game.getIdentifier()}"
 
     clientReady: (socket) ->

@@ -59,3 +59,8 @@ io.sockets.on "connection", (socket) ->
     ##  Game routes
     ###
     require("./server/routes/game").load io, superSocket
+
+    ###
+    ##  Chat routes - bit of a grandiose term, only one for now
+    ###
+    require("./server/routes/chat").load io, superSocket

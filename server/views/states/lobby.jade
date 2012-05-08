@@ -1,5 +1,13 @@
 .state.state-lobby
-    h2 Games
+    h2 Games in progress
     .game-list
 
-    a.btn.game-start Start game
+    a.btn.game-start Start new game
+
+    h2 Lobby chat
+
+    .chat-inner
+
+    form.chat-form
+        input(name='chat', type='text', autocomplete='off')
+        input(type='submit', class='btn')
