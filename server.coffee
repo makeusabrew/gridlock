@@ -3,7 +3,7 @@ app     = express.createServer()
 io      = require("socket.io").listen(app)
 mongoose= require "mongoose"
 
-GameSocket = require "./server/game_socket"
+SuperSocket = require "./server/super_socket"
 
 mongoose.connect "localhost", "gridlock"
 
@@ -31,10 +31,9 @@ io.sockets.on "connection", (socket) ->
     ###
     ## client boot stuff
     ###
-    superSocket = new GameSocket socket
+    superSocket = new SuperSocket socket
 
     superSocket.changeState "welcome"
-    #socket.emit "state:change", "welcome"
 
     ###
     ## one off static controller 
@@ -59,4 +58,4 @@ io.sockets.on "connection", (socket) ->
     ###
     ##  Game routes
     ###
-    require("./server/routes/game").load io, socket
+    require("./server/routes/game").load io, superSocket

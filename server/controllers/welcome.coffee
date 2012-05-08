@@ -19,6 +19,6 @@ WelcomeController =
                 socket.emit "welcome:authed", doc
 
     proceedToLobby: (socket) ->
-        socket.emit "state:change", "lobby"
+        socket.changeState "lobby"
         
 module.exports = WelcomeController

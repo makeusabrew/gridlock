@@ -7,31 +7,31 @@ GameController =
     io: null
 
     init: (socket) ->
-        socket.get "gameId", (err, gameId) =>
-            game = getGame gameId
+        game = socket.game
 
-            info =
-                players: game.getUsers()
-                grid:
-                    w: game.model.width
-                    h: game.model.height
-            
-            socket.emit "game:info", info
-            socket.join "game:#{gameId}"
+        info =
+            players: game.getUsers()
+            grid:
+                w: game.model.width
+                h: game.model.height
+        
+        socket.emit "game:info", info
+
+        # no supersocket proxy for join
+        socket.socket.join "game:#{game.getIdentifier()}"
 
     clientReady: (socket) ->
-        socket.get "gameId", (err, gameId) =>
-            game = getGame gameId
+        game = socket.game
 
-            gameSockets = @io.sockets.clients "game:#{gameId}"
-            
-            if gameSockets.length is 2
+        gameSockets = @io.sockets.clients "game:#{game.getIdentifier()}"
+        
+        if gameSockets.length is 2
 
-                game.start()
-                game.on "game:tile:flip", =>
-                   @flipTile gameId
+            game.start()
+            game.on "game:tile:flip", =>
+               @flipTile game.getIdentifier()
 
-                @io.sockets.in("game:#{gameId}").emit "game:start"
+            @io.sockets.in("game:#{game.getIdentifier()}").emit "game:start"
 
     flipTile: (gameId) ->
         game = getGame gameId
@@ -47,36 +47,33 @@ GameController =
         @io.sockets.in("game:#{gameId}").emit "game:tile:show", tile.getData()
 
     checkHit: (socket, data) ->
-        socket.get "gameId", (err, gameId) =>
+        game = socket.game
+        tile = game.getTile data.x, data.y
 
-            game = getGame gameId
-            tile = game.getTile data.x, data.y
+        if tile.isVisible()
+            tile.hide()
+            user = socket.user
+            @io.sockets.in("game:#{game.getIdentifier()}").emit "game:tile:hide", tile.getData()
+            if tile.type.type is "points"
+                game.addUserScore user, tile.type.value
 
-            if tile.isVisible()
-                tile.hide()
-                socket.get "user", (err, user) =>
-                    @io.sockets.in("game:#{gameId}").emit "game:tile:hide", tile.getData()
-                    if tile.type.type is "points"
-                        game.addUserScore user, tile.type.value
-
-                        data =
-                            id: user.getIdentifier()
-                            score: tile.type.value
-                        @io.sockets.in("game:#{gameId}").emit "game:user:score", data
+                data =
+                    id: user.getIdentifier()
+                    score: tile.type.value
+                @io.sockets.in("game:#{game.getIdentifier()}").emit "game:user:score", data
 
     updatePlayerPosition: (socket, data) ->
-        socket.get "gameId", (err, gameId) =>
-            game = getGame gameId
+        game = socket.game
+        user = socket.user
+        # finally, got game and user
+        game.updateUserPosition user, data
 
-            socket.get "user", (err, user) =>
-                # finally, got game and user
-                game.updateUserPosition user, data
+        packet =
+            x: data.x
+            y: data.y
+            id: user.getIdentifier()
 
-                packet =
-                    x: data.x
-                    y: data.y
-                    id: user.getIdentifier()
-
-                socket.broadcast.to("game:#{gameId}").emit "game:user:position", packet
+        # we can't use the SuperSocket's proxy of .emit here. Boo
+        @socket.socket.broadcast.to("game:#{game.getIdentifier()}").emit "game:user:position", packet
 
 module.exports = GameController

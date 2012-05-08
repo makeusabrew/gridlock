@@ -18,24 +18,24 @@ LobbyController =
         game = new GameModel()
         game.createGrid (err) ->
 
-            socket.get "user", (err, user) ->
-                game.addUser user
+            user = socket.user
+            game.addUser user
 
-                gameId = game.model._id
-                StateManager.setGame gameId, game
+            gameId = game.model._id
+            StateManager.setGame gameId, game
 
-                socket.set "gameId", gameId
-                socket.emit "state:change", "game"
+            socket.game = game
+            socket.changeState "game"
 
     joinGame: (socket, data) ->
         game = StateManager.getGame(data.id)
         if game
-            socket.get "user", (err, user) =>
-                game.addUser user
+            user = socket.user
+            game.addUser user
 
-                @io.sockets.in("game:#{data.id}").emit "game:user:join", user.model
+            @io.sockets.in("game:#{data.id}").emit "game:user:join", user.model
 
-                socket.set "gameId", data.id
-                socket.emit "state:change", "game"
+            socket.game = game
+            socket.changeState "game"
 
 module.exports = LobbyController

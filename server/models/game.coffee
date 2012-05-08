@@ -69,4 +69,7 @@ class Game
     updateUserPosition: (user, position) ->
         @users[user.getIdentifier()].position = position
 
+    getIdentifier: ->
+        return @model._id
+
 module.exports = Game
