@@ -11,12 +11,12 @@ WelcomeController =
                 # new user
                 user = new User()
                 user.createFromValues data, (err) ->
-                    socket.set "user", user, ->
-                        socket.emit "welcome:authed", user.model
+                    socket.setUser user
+                    socket.emit "welcome:authed", user.model
             else
                 user = new User doc
-                socket.set "user", user, ->
-                    socket.emit "welcome:authed", doc
+                socket.setUser user
+                socket.emit "welcome:authed", doc
 
     proceedToLobby: (socket) ->
         socket.emit "state:change", "lobby"

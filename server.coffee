@@ -31,10 +31,10 @@ io.sockets.on "connection", (socket) ->
     ###
     ## client boot stuff
     ###
-    gameSocket = new GameSocket socket
+    superSocket = new GameSocket socket
 
-    #gameSocket.changeState "welcome"
-    socket.emit "state:change", "welcome"
+    superSocket.changeState "welcome"
+    #socket.emit "state:change", "welcome"
 
     ###
     ## one off static controller 
@@ -42,19 +42,19 @@ io.sockets.on "connection", (socket) ->
     StaticController = require "./server/controllers/static"
 
     socket.on "state:fetch", (state, cb) ->
-        #if gameSocket.state is state
-        StaticController.fetchState state, (data) ->
-            cb data
+        if superSocket.state is state
+            StaticController.fetchState state, (data) ->
+                cb data
 
     ###
     ##  Welcome routes
     ###
-    require("./server/routes/welcome").load io, socket
+    require("./server/routes/welcome").load io, superSocket
 
     ###
     ##  Lobby routes
     ###
-    require("./server/routes/lobby").load io, socket
+    require("./server/routes/lobby").load io, superSocket
 
     ###
     ##  Game routes
