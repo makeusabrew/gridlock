@@ -23,6 +23,9 @@ GameRouter =
         socket.on "game:user:score", (data) ->
             GameController.userScore data
 
+        socket.on "game:user:position", (data) ->
+            GameController.updateUserPosition data
+
     init: ->
         GameController.init()
 

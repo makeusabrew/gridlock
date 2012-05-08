@@ -4,8 +4,22 @@ SoundManager = require "../sound_manager"
 ###
 ## private bits
 ###
+users = {}
+
 _addUser = (user) ->
+    # this could be interesting; attaching actual dom elements to objects? feels a
+    # bit non MVC (assuming user is our M) but could work...
+    user.cursor = $("<img data-user-cursor='#{user.twitter_id}' class=user-cursor src='#{user.profile_image_url}' />")
+
     $(".users").append("<div data-user-id='#{user.twitter_id}'><img src='#{user.profile_image_url}' /> <span>0</span></div>")
+
+    $("body").append(user.cursor)
+
+    users[user.twitter_id] = user
+
+oldCursor =
+    x: 0
+    y: 0
 
 cursor =
     x: 0
@@ -33,8 +47,9 @@ GameController =
 
         # wire up handler to keep track of cursor position
         $(document).on "mousemove", (e) ->
-            cursor.x = e.pageX
-            cursor.y = e.pageY
+            gridOffset = $(".grid").offset()
+            cursor.x = e.pageX - gridOffset.left
+            cursor.y = e.pageY - gridOffset.top
 
         @socket.emit "game:init"
 
@@ -63,9 +78,15 @@ GameController =
 
     start: ->
         console.log "GO!"
+        ###
+        really don't like cursor stuff at the moment, so disabling for now
         setInterval =>
-            @socket.emit "game:user:position", cursor
-        , 500
+            if cursor.x != oldCursor.x or cursor.y != oldCursor.y
+                @socket.emit "game:user:position", cursor
+                oldCursor.x = cursor.x
+                oldCursor.y = cursor.y
+        , 100
+        ###
 
     showTile: (data) ->
         tile = $(".tile[data-x=#{data.x}][data-y=#{data.y}]")
@@ -109,5 +130,17 @@ GameController =
         span = $("[data-user-id='#{data.id}'] span")
         score = parseInt span.html()
         span.html(parseInt(data.score) + score)
+
+    updateUserPosition: (data) ->
+        user = users[data.id]
+
+        gridOffset = $(".grid").offset()
+        widthOffset = user.cursor.width() / 2
+        heightOffset = user.cursor.height() / 2
+        user.cursor.css({
+            "left": data.x + gridOffset.left - widthOffset,
+            "top": data.y + gridOffset.top - heightOffset
+        })
+        
 
 module.exports = GameController

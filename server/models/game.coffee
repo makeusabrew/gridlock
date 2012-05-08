@@ -19,8 +19,7 @@ class Game
         @emitter = new EventEmitter()
         @model = new GameModel()
         @tiles = []
-        @users = []
-        @userScores = {}
+        @users = {}
 
     createGrid: (cb) ->
         for x in [0..9]
@@ -54,15 +53,20 @@ class Game
         @emitter.on event, args
 
     addUser: (user) ->
-        @users.push user
-        @userScores[user.getIdentifier()] = 0
+        @users[user.getIdentifier()] = user
 
     getUsers: ->
         results = []
-        results.push user.model for user in @users
+        results.push user.model for key, user of @users
         return results
 
+    # @todo what about users in multiple games?
     addUserScore: (user, score) ->
-        @userScores[user.getIdentifier()] += score
+        @users[user.getIdentifier()].addScore score
+
+    # @todo what about users in multiple games?
+    # do we even care about tracking a user's position
+    updateUserPosition: (user, position) ->
+        @users[user.getIdentifier()].position = position
 
 module.exports = Game

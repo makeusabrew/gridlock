@@ -19,6 +19,8 @@ UserModel = mongoose.model "UserModel", UserSchema
 
 class User extends Base
     constructor: (properties)->
+        @score = 0
+
         if typeof properties is 'object'
             @model = new UserModel properties, true
         else
@@ -43,6 +45,12 @@ class User extends Base
 
     getIdentifier: ->
         return @get "twitter_id"
+
+    getScore: ->
+        return @score
+
+    addScore: (score) ->
+        @score += score
 
 exports.User = User
 exports.UserModel = UserModel

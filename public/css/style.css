@@ -79,3 +79,9 @@
 .avatar-small {
     width:20px;
 }
+
+.user-cursor {
+    position:absolute;
+    width:18px;
+    height:18px;
+}

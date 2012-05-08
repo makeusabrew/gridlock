@@ -13,4 +13,7 @@ GameRouter =
         socket.on "game:tile:hit", (data) ->
             GameController.checkHit socket, data
 
+        socket.on "game:user:position", (data) ->
+            GameController.updatePlayerPosition socket, data
+
 module.exports = GameRouter

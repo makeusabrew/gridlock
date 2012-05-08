@@ -1,5 +1,15 @@
 Client = require "../client.coffee"
 
+###
+## private api
+###
+authUser = (data) ->
+    delete data.status
+    Client.getSocket().emit "welcome:auth", data
+
+###
+## public api
+###
 WelcomeController =
     init: ->
         console.log "welcome init"
@@ -7,16 +17,12 @@ WelcomeController =
         # twitter auth stuff
         twttr.anywhere (T) ->
             if T.isConnected()
-                userData = T.currentUser.attributes
-                delete userData.status
-                Client.getSocket().emit "welcome:auth", userData
+                authUser T.currentUser.attributes
             else
                 T("#auth").connectButton()
 
             T.bind "authComplete", (e, user) ->
-                userData = T.currentUser.attributes
-                delete userData.status
-                Client.getSocket().emit "welcome:auth", userData
+                authUser user
 
             T.bind "signOut", (e) ->
                 console.log e
