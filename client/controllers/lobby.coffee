@@ -31,11 +31,7 @@ LobbyController =
         $(document).off "click", ".chat-form"
 
     info: (data) ->
-        console.log data
-        games = data.games
-        for gameId in games
-            elem = $("<div data-id=#{gameId} class=game>#{gameId}</div>")
-            $(".game-list").append elem
+        View.render "lobby:games", data
 
     addChat: (data) ->
         View.render "chat:line", data

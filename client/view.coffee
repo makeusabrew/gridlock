@@ -2,6 +2,8 @@
 # the hit here and map physical files to arbitrary strings instead
 viewMap =
     "chat:line": require "./views/chat-line.coffee"
+    "lobby:games": require "./views/lobby-games.coffee"
+
 View =
     render: (view, data) ->
         viewMap[view](data)
