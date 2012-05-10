@@ -20,6 +20,24 @@
     <p>This page contains musings, plans and general stuff <a href="http://twitter.com/makeusabrew">I've discovered</a>
     when building my latest multiplayer HTML5 game, <a href="http://github.com/makeusabrew/gridlock">Gridlock</a>.</p>
 
+    <h2>Thurday 10th May, 2012</h2>
+
+    <p>Spent a while tidying up the initial auth process a bit and moving DOM manipulation into views where possible.
+    Authentication now feels a little smoother but still not totally happy with it.</p>
+
+    <p>Did a bit more work on chat, including the basics of a <code>GridBot</code> too; the idea being this bot can exist
+    across the lobby and each individual game, and can welcome and interact with players. Again this raises the issue
+    of the <code>ChatController</code> and how it exists (persists?) in other controllers. The solution so far is to
+    use a new concept: <b>Proxies</b>.</p>
+
+    <p>Proxy might be completely the wrong word for it, but in essence these objects (of which there should be few) act as
+    bridges between any other objects (e.g. controllers). The only one in existence thus far is used by GridBot: the
+    LobbyController <code>requires</code> GridBot, GridBot <code>requires</code> the ChatProxy, and the ChatProxy simply exposes
+    some simplified chat methods which it in turn passes through to a <code>required</code> ChatController. In essence, all this does
+    is abstract the ChatController away a bit&mdash;and prevents the awkward situation of a controller directly
+    including and invoking methods on another controller. Of course, it only achieves this via some simple abstractions,
+    but it feels better than nothing.</p>
+
     <h2>Tuesday 8th May, 2012</h2>
 
     <p>Suddenly became conscious of the fact that for as long as the server runs, we're going to be dealing with
