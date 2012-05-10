@@ -1,6 +1,6 @@
 StateManager = require "../state_manager"
-
-GameModel = require "../models/game"
+GameModel    = require "../models/game"
+GridBot      = require "../gridbot"
 
 LobbyController =
     io: null
@@ -13,6 +13,8 @@ LobbyController =
             games: games
 
         socket.emit "lobby:info", data
+
+        GridBot.chat "#{socket.user.get 'screen_name'} joined the lobby!"
 
     startGame: (socket) ->
         game = new GameModel()
