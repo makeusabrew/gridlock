@@ -5,6 +5,6 @@ ChatController =
         packet =
             message: data
 
-        @io.sockets.emit "chat:lobby", packet
+        ChatProxy.chat packet
 
 module.exports = ChatController

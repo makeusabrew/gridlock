@@ -26,6 +26,9 @@ io.configure ->
 # load routes
 require("./server/routes/url").load app
 
+# global proxies
+require("./server/proxies/chat").io = io
+
 # wire up sockets
 io.sockets.on "connection", (socket) ->
     ###

@@ -1,7 +1,7 @@
-ChatController = require "../controllers/chat"
-
 ChatProxy =
+    io: null
+
     chat: (data) ->
-        ChatController.lobbyChat null, data
+        @io.sockets.emit "chat:lobby", data
 
 module.exports = ChatProxy
