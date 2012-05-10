@@ -19,7 +19,11 @@ WelcomeController =
             if T.isConnected()
                 authUser T.currentUser.attributes
             else
-                T("#auth").connectButton()
+                $(".auth-state").replaceWith("<a class='auth-state btn btn-success' href=#>Connect with Twitter</a>")
+
+                $(".auth-state").on "click", (e) ->
+                    e.preventDefault()
+                    T.signIn()
 
             T.bind "authComplete", (e, user) ->
                 authUser user
@@ -39,6 +43,7 @@ WelcomeController =
         .append(img)
 
         $("#proceed").show()
+        $(".auth-state").remove()
 
     destroy: ->
         console.log "welcome destroy"
