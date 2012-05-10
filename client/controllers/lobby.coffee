@@ -17,8 +17,11 @@ LobbyController =
         $(document).on "submit", ".chat-form", (e) ->
             e.preventDefault()
 
-            data = $(this).find("input[name=chat]").val()
+            input = $(this).find("input[name=chat]")
+            data = input.val()
             Client.getSocket().emit "chat:lobby", data
+
+            input.attr("value", "")
 
         # ok server, we're ready. Give us what you've got.
         Client.getSocket().emit "lobby:init"
