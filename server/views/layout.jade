@@ -24,8 +24,18 @@ html(lang="en")
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             })();
 body
-    ul.nav
-        li(data-user)
+    .container
+        .navbar
+            .navbar-inner
+                .container
+                    a.brand(href='#') Gridlock
+                    ul.nav.pull-right
+                        li.divider-vertical
+                        li(data-user)
+                        li.dropdown
+                            a.dropdown-toggle(href='#', data-toggle='dropdown')
+                                span(data-avatar)
+                                b.caret
 
     .container
         block content

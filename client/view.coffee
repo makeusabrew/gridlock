@@ -3,6 +3,7 @@
 viewMap =
     "chat:line": require "./views/chat-line.coffee"
     "lobby:games": require "./views/lobby-games.coffee"
+    "welcome:authed": require "./views/welcome-authed.coffee"
 
 View =
     render: (view, data) ->

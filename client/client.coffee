@@ -2,6 +2,7 @@ _socket    = null
 _connected = false
 _wrapper   = null
 _state     = null
+_user      = null
 
 _routers = null
 
@@ -35,5 +36,10 @@ Client =
     getSocket: ->
         _socket
             
+    setUser: (user) ->
+        _user = user
+
+    getUser: ->
+        _user
 
 module.exports = Client

@@ -76,12 +76,18 @@
     color: white;
 }
 
-.avatar-small {
+
+.nav-avatar {
     width:20px;
+    height:20px;
 }
 
 .user-cursor {
     position:absolute;
     width:18px;
     height:18px;
+}
+
+.navbar .brand {
+    color: #AB1;
 }

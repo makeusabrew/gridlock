@@ -1,4 +1,5 @@
 Client = require "../client.coffee"
+View   = require "../view.coffee"
 
 ###
 ## private api
@@ -19,7 +20,7 @@ WelcomeController =
             if T.isConnected()
                 authUser T.currentUser.attributes
             else
-                $(".auth-state").replaceWith("<a class='auth-state btn btn-success' href=#>Connect with Twitter</a>")
+                $(".auth-state").replaceWith("<a class='auth-state btn btn-primary' href=#>Connect with Twitter</a>")
 
                 $(".auth-state").on "click", (e) ->
                     e.preventDefault()
@@ -32,18 +33,16 @@ WelcomeController =
                 console.log e
 
         # proceed to lobby binding
-        $("#proceed").on "click", (e) ->
+        $(document).on "click", ".enter-lobby", (e) ->
             e.preventDefault()
             Client.getSocket().emit "welcome:proceed"
 
     authed: (data) ->
-        img = $("<img src='#{data.profile_image_url}' class='avatar avatar-small' />")
-        $("[data-user]")
-        .html("Signed in as <a href=http://twitter.com/#{data.screen_name}>@#{data.screen_name}</a>")
-        .append(img)
+        Client.setUser data
+        $("[data-user]").html("<a class='nav-username' href=http://twitter.com/#{data.screen_name}>@#{data.screen_name}</a>")
+        $("[data-avatar]").html("<img src='#{data.profile_image_url}' class='nav-avatar ' />")
 
-        $("#proceed").show()
-        $(".auth-state").remove()
+        View.render "welcome:authed", data
 
     destroy: ->
         console.log "welcome destroy"
